@@ -1,0 +1,31 @@
+Make a Mind Map of {prompt} in the format
+
+<BEGIN CONCEPTS>
+Concept1: Description1
+Concept2: Description2
+Concept3: Description3
+Concept4: Description4
+<END CONCEPTS>
+<BEGIN CONNECTIONS>
+Concept1->Concept2:Connection Message1
+Concept3->Concept4:Connection Message2
+Concept1->Concept3:Connection Message3
+<END CONNECTIONS>
+
+
+The descriptions may Be as long as possible
+
+
+Example:
+Addition: the process of finding the sum of two numbers
+Multiplication: Can be used to find the area of a rectangle
+
+
+Addition->Multiplication: Multiplication can be expressed as repeated addition
+
+Other Considerations:
+Ensure that all the concepts connect to each other, either directly or indirectly
+also ensure that you have at least 10 concepts
+You have been given extra details to help you here.
+ENSURE THAT THE CONCEPT NAMES IN THE CONCEPTS AND CONNCECTIONS SECTION MATCH, IF THEY DO NOT EXACTLY MATCH, THEY WILL NOT CONNECT ON THE VISUAL REPRESENTATION
+DO NOT STATE ANYTHING ALONG THE LINES OF "Sure! here is your mind map" or "Here is a mind map" ONLY OUTPUT IN THE FORMAT ABOVE AND NOTHING ELSE

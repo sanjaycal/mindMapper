@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+<head>
+  <link rel="stylesheet" type="text/css" href="index.css">
+  <title>Mind Mapper</title>
+  <script src="cytoscape.min.js"></script>
+</head>
+<body>
+  <input type="text" id="whatToMindMap"></input>
+  <button id="submitButton">Submit</button>
+  <h3 id="tooltip"></h3>
+  <div id="cy"></div>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      document.getElementById("submitButton").addEventListener("click", submitForm);
+    });
+
+    function submitForm() {
+      const whatToMindMap = document.getElementById("whatToMindMap").value;
+      const xhr = new XMLHttpRequest();
+      xhr.open("POST", "http://localhost:31263/mindmap");
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.onload = function() {
+        if (xhr.status === 200) {
+          // Handle successful response
+          const responseData = JSON.parse(xhr.responseText);
+          console.log(responseData);
+    var cy = cytoscape({
+      container: document.getElementById('cy'),
+            style: [
+              {selector: 'node',
+               style:{
+
+                  'content': 'data(name)',
+                  'text-valign': 'center',
+                  'color': 'white',
+                  'text-outline-width': 2,
+                  'text-outline-color': '#888',
+                  'background-color': '#888'}
+              },
+              {
+  "selector": "edge[arrow]",
+  "style": {
+    "target-arrow-shape": "data(arrow)"
+  }
+}
+            ]
+    });
+    
+          cy.on('mouseover','node', function(evt){
+            console.log(evt.target.data('name'))
+            console.log(evt.target.scratch('expanded'))
+            var node = evt.target;
+            document.getElementById("tooltip").innerHTML = node.scratch('desc');
+          })
+          cy.on('mouseout','node', function(evt){
+            var node = evt.target;
+            document.getElementById("tooltip").innerHTML = "";
+          })
+
+          cy.on('mouseover','edge', function(evt){
+            var node = evt.target;
+            document.getElementById("tooltip").innerHTML = node.data('name');
+          })
+          cy.on('mouseout','edge', function(evt){
+            var node = evt.target;
+            document.getElementById("tooltip").innerHTML = "";
+          })
+
+    responseData.concepts.forEach(
+      function(concept){
+        cy.add(
+          {
+            group: "nodes",
+            scratch: {name: concept[0], desc: concept[1]},
+            data: {id: concept[0], name:concept[0]},
+          }
+        );
+      }
+    );
+
+    responseData.connections.forEach(
+      function(connection){
+        cy.add(
+          {
+            group: "edges",
+            data: {id:connection[0]+connection[1], source:connection[0], target:connection[1], name:connection[2], arrow:"triangle"}
+          }
+        )
+      }
+    )
+    var layout = cy.elements().layout({
+      name: 'cose'
+    });
+
+    layout.run();
+
+
+          // Process the response data as needed
+        } else {
+          // Handle error response
+          console.error("An error occurred:", xhr.statusText);
+        }
+      };
+      xhr.onerror = function() {
+        // Handle network errors
+        console.error("Network error occurred");
+      };
+      xhr.send(JSON.stringify({ query: whatToMindMap }));
+    }
+  </script>
+</body>
+</html>

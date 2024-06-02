@@ -1,0 +1,12 @@
+#cy {
+  width: 1000px;
+  height: 1000px;
+  display: block;
+}
+
+h3{
+  position:absolute;
+  right:1px;
+  top:1px;
+  width: 50%;
+}
