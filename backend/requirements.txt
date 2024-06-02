@@ -1,3 +1,4 @@
 flask
+flask-cors
 cohere
 exa-py
